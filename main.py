@@ -26,12 +26,13 @@ def get_db():
 @app.post("/leads/", response_model=schemas.Lead)
 def create_lead(lead: schemas.LeadCreate, db: Session = Depends(get_db)):
     db_lead = crud.create_lead(db=db, lead=lead)
-    # Send email to prospect
-    prospect_email_content = "Hello, thank you for submitting your lead."
-    send_email(to_email=lead.email, subject="Lead Submission Confirmation", content=prospect_email_content)
-    # Send email to attorney
-    attorney_email_content = f"A new lead has been submitted by {lead.first_name} {lead.last_name}."
-    send_email(to_email="attr@example.com", subject="New Lead Submission", content=attorney_email_content)
+    # TODO sendGrid API key setup
+    # # Send email to prospect
+    # prospect_email_content = "Hello, thank you for submitting your lead."
+    # send_email(to_email=lead.email, subject="Lead Submission Confirmation", content=prospect_email_content)
+    # # Send email to attorney
+    # attorney_email_content = f"A new lead has been submitted by {lead.first_name} {lead.last_name}."
+    # send_email(to_email="attr@example.com", subject="New Lead Submission", content=attorney_email_content)
     return db_lead
 
 # Protected endpoint to read leads for a person (same last name and first name)
