@@ -11,5 +11,5 @@ class Lead(Base):
     first_name = Column(String, index=True)
     last_name = Column(String, index=True)
     email = Column(String, unique=True, index=True)
-    resume = Column(String)  # URL or file path
+    resume = Column(String)
     state = Column(Enum("PENDING", "REACHED_OUT", name="lead_state"), default="PENDING")
