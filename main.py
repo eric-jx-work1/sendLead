@@ -53,13 +53,7 @@ def token_generate(form_data: OAuth2PasswordRequestForm = Depends()):
     return {"access_token": access_token, "token_type": "bearer"}
 
 # Public endpoint to create a lead
-    # TODO sendGrid API key setup
-    # # Send email to prospect
-    # prospect_email_content = "Hello, thank you for submitting your lead."
-    # send_email(to_email=lead.email, subject="Lead Submission Confirmation", content=prospect_email_content)
-    # # Send email to attorney
-    # attorney_email_content = f"A new lead has been submitted by {lead.first_name} {lead.last_name}."
-    # send_email(to_email="attr@example.com", subject="New Lead Submission", content=attorney_email_content)
+
 @app.post("/leads/", response_model=schemas.Lead)
 def create_lead(
     first_name: str,
@@ -78,7 +72,16 @@ def create_lead(
         email=email,
         resume=file_location
     )
+
     db_lead = crud.create_lead(db=db, lead=lead_data)
+
+    # Send email to prospect
+    prospect_email_content = "Hello, thank you for submitting your lead."
+    # send_email(to_email=lead_data.email, subject="Lead Submission Confirmation", content=prospect_email_content)
+    # Send email to attorney
+    # attorney_email_content = f"A new lead has been submitted by {lead_data.first_name} {lead_data.last_name}."
+    # send_email(to_email="attorney@company.com", subject="New Lead Submission", content=attorney_email_content)
+
     return db_lead
 
 # Protected endpoint to read leads for a person (same last name and first name)
